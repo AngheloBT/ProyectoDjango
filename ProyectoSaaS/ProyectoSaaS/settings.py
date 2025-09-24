@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'portal',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Indicar que usara CustomUser como modelo para usuario
+AUTH_USER_MODEL='portal.CustomUser'
+
+#Comportamiento login
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+from django.urls import reverse_lazy
+
+LOGIN_REDIRECT_URL = reverse_lazy('app')
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
