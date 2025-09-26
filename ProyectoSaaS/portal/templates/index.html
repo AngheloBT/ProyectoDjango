@@ -2,15 +2,45 @@
 
 {% block content %}
 
-<div>
-    <h2>Ventas por Sección</h2>
-    {{ ventas_seccion|safe }}
-</div>
+<div class="container my-4">
 
-<div>
-    <h2>Ventas por Cliente</h2>
-    {{ ventas_cliente|safe }}
-</div>
+    <h1 class="text-center mb-5">Dashboard de Ventas</h1>
 
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-3">Ventas por Sección</h5>
+                    <div class="table-responsive">
+                        {{ ventas_seccion|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-3">Ventas Mensuales</h5>
+                    <div class="table-responsive">
+                        {{ ventas_mensuales|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-3">Lift y Confianza Media</h5>
+                    <div class="table-responsive">
+                        {{ lift_confianza|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

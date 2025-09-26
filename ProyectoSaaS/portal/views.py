@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from portal.dashboards.plotly_dashboards import dashboard_ventas_cliente, dashboard_ventas_seccion
+from portal.dashboards.plotly_dashboards import dashboard_ventas_seccion, dashboard_lift_confianza, dashboard_ventas_mensuales
 # Create your views here.
 
 class Homeview(LoginRequiredMixin, TemplateView):
@@ -10,7 +10,8 @@ class Homeview(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ventas_seccion'] = dashboard_ventas_seccion()
-        context['ventas_cliente'] = dashboard_ventas_cliente()
+        context['ventas_mensuales'] = dashboard_ventas_mensuales()
+        context['lift_confianza'] = dashboard_lift_confianza()
         return context
 
 class CustomLoginView(LoginView):
