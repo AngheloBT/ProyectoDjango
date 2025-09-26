@@ -10,18 +10,17 @@ def clean_data(raw_data):
     df = pd.DataFrame(raw_data)
 
     # --- Limpieza de fechas y horas ---
-    # Suponiendo fecha como YYYYMMDD y hora como HH:MM:SS (str o num)
-    df['fecha'] = pd.to_datetime(df['fecha'].astype(str), format='%Y%m%d').dt.date
-    df['hora'] = pd.to_datetime(df['hora'], format='%H:%M:%S').dt.time
+    # Nuevo:
+    df['fecha'] = pd.to_datetime(df['fecha']).dt.date
+    df['hora'] = pd.to_datetime(df['hora']).dt.time
+
 
     # --- Total coherente ---
     df['precio_total'] = df['precio_unitario'] * df['cantidad']
 
-    # --- Mapear departamento y sección a nombres ---
-    dept_map = {1: 'Electrónica', 2: 'Ropa', 3: 'Hogar'}
-    sec_map = {1: 'Celulares', 2: 'TV', 3: 'Camisas', 4: 'Sábanas'}
+    # --- Mapear sección a nombres ---
+    sec_map = {16: 'Hierbas', 24: 'Frutas', 53: 'Cremas', 67: 'Untables', 83: 'Verduras', 84: 'Lacteos', 115: 'Bebidas', 123: 'Organic'}
 
-    df['departamento_nombre'] = df['id_departamento'].map(dept_map)
     df['seccion_nombre'] = df['id_seccion'].map(sec_map)
 
     # --- Quitar duplicados (si aplica) ---
