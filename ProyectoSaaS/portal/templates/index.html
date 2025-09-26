@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <h2>Ventas por Sección</h2>
+    {{ ventas_seccion|safe }}
+</div>
+
+<div>
+    <h2>Ventas por Cliente</h2>
+    {{ ventas_cliente|safe }}
+</div>
+
+
+{% endblock %}
