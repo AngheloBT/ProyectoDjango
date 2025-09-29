@@ -137,3 +137,19 @@ from django.urls import reverse_lazy
 LOGIN_REDIRECT_URL = reverse_lazy('app')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
+
+# settings.py
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # Cambia a INFO si no quieres tanto detalle
+    },
+}
