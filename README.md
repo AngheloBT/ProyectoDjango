@@ -53,3 +53,7 @@ Notas adicionales
 
 * La base de datos ya cargada permite probar la aplicación sin necesidad de migraciones ni creación de usuarios manual.
 * El archivo requirements-dev.txt incluye todas las dependencias necesarias para ejecutar pruebas y análisis de seguridad.
+
+Cuenta admin
+username = anghelo
+password = 123

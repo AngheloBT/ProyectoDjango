@@ -11,11 +11,11 @@ def get_raw_data(limit=None):
 
     query = 'SELECT * FROM VENTAS'
     if limit:
-        query += f" LIMIT {limit}"  # espacio importante antes de LIMIT
+        query += f" LIMIT {limit}"
 
     cursor.execute(query)
     rows = cursor.fetchall()
-    cursor.close()  # paréntesis necesarios
+    cursor.close()
 
     data = [dict(row) for row in rows]
     return data
