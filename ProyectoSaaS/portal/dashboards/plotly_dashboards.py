@@ -25,7 +25,7 @@ def dashboard_ventas_seccion():
     fig.update_layout(
         title={'x':0.5, 'xanchor':'center'},  # Centrar título
         xaxis_tickangle=-45,
-        yaxis_title='Monto Total (CLP)',
+        yaxis_title='Monto Total ($)',
         xaxis_title='Sección',
         uniformtext_minsize=10, uniformtext_mode='hide',
         height=450
