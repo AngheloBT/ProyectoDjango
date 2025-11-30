@@ -1,5 +1,4 @@
 django
-django-bootstrap-v5
 pandas
 plotly
 django-plotly-dash

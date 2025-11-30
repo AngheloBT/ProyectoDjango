@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'portal',
-    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -117,6 +116,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Ruta donde Django buscará tus archivos propios (CSS, JS, etc.)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',   # crea esta carpeta junto a manage.py
+]
+
+# Ruta donde se almacenarán todos los archivos estáticos recolectados
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # se genera automáticamente al usar collectstatic
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

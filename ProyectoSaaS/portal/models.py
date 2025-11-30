@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     rut = models.CharField(max_length=12, unique=True)
+    telefono = models.CharField(max_length=15, null=True, blank=True)
 
 class Client(models.Model):
     id_client = models.IntegerField(unique=True)

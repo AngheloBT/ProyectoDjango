@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center pt-4">
+    <div class="card shadow rounded-4" style="width: 500px">
+        <div class="card-body">
+            <h1 class="text-center py-3 text-danger">¿Está seguro que desea eliminar este usuario?</h1>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item"><strong>Nombre:</strong> {{ object.first_name }}</li>
+                <li class="list-group-item"><strong>Apellido:</strong> {{ object.last_name }}</li>
+                <li class="list-group-item"><strong>Correo Electrónico:</strong> {{ object.username }}</li>
+                {% if object.telefono %}
+                <li class="list-group-item"><strong>Teléfono:</strong> {{ object.telefono }}</li>
+                {% endif %}
+                {% if object.is_staff %}
+                <li class="list-group-item"><strong>Rol:</strong> Administrador / Staff</li>
+                {% else %}
+                <li class="list-group-item"><strong>Rol:</strong> Empleado</li>
+                {% endif %}
+            </ul>
+            <form method="POST" class="p-4" autocomplete="off">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100 my-3">Eliminar</button>
+                <a href="{% url 'list_users' %}" class="btn btn-outline-primary w-100">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

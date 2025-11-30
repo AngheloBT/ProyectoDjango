@@ -1,66 +1,95 @@
-{% load bootstrap5 %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi App{% endblock %}</title>
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+    <title>{% block title %}Minimarket Don Pepito{% endblock %}</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
+
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3">
-    <div class="container-fluid">
-        <!-- Nombre App -->
-        <a class="navbar-brand fs-3" href="{% url 'app' %}">Mi App</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3">
+        <div class="container-fluid">
+            <!-- Nombre App -->
+            <a class="navbar-brand fs-4 text-primary fw-medium" href="{% url 'app' %}">
+                Minimarket Don Pepito
+            </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                 aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ms-auto align-items-center">
-                {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
-                           id="navbarDropdown"
-                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i>
-                            {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li>
-                                <form method="post" action="{% url 'logout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="dropdown-item">Cerrar Sesión</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">
-                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+                            <!-- 🔹 Botón gestionar usuarios solo para staff/admin -->
+                            {% if user.is_staff or user.is_superuser %}
+                                <a href="{% url 'list_users' %}" 
+                                   class="btn btn-outline-primary btn-sm mb-1 mb-lg-0 me-lg-2 fw-medium">
+                                   Gestion de Usuarios
+                                </a>
+                            {% endif %}
+
+                            <!-- 🔹 Nombre completo y tipo de cuenta -->
+                            <div class="d-flex flex-column text-lg-start text-center me-lg-3 ps-3">
+                                <span class="fw-normal text-primary">{{ user.first_name }} {{ user.last_name }}</span>
+                                <small class="text-muted">
+                                    {% if user.is_superuser %}
+                                        Administrador
+                                    {% elif user.is_staff %}
+                                        Staff
+                                    {% else %}
+                                        Empleado
+                                    {% endif %}
+                                </small>
+                            </div>
+
+                            <!-- 🔹 Icono de usuario con dropdown solo para cerrar sesión -->
+                            <div class="dropdown ms-lg-0 mt-1 mt-lg-0">
+                                <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle fa-lg"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<main class="flex-grow-1 d-flex justify-content-center align-items-center py-4">
-    {% block content %}{% endblock %}
-</main>
+    <main class="">
+        {% block content %}{% endblock %}
+    </main>
 
-<footer class="bg-white text-center py-3 shadow-sm mt-auto">
-    {% block footer %}
-    <p class="mb-0">&copy; 2025 Mi App. Todos los derechos reservados.</p>
-    {% endblock %}
-</footer>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <footer class="bg-white text-center py-3 shadow-sm mt-auto">
+        {% block footer %}
+        <p class="mb-0">&copy; 2025 Minimarket Don Pepito. Todos los derechos reservados.</p>
+        {% endblock %}
+    </footer>
 
 </body>
+
 </html>
