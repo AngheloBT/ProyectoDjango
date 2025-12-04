@@ -2,8 +2,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import CustomRegisterForm, CustomLoginForm, CustomEditForm
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from portal.dashboards.plotly_dashboards import dashboard_ventas_seccion, dashboard_lift_confianza, dashboard_ventas_mensuales
-from .models import CustomUser
+from portal.dashboards.plotly_dashboards import *
+from portal.loaders.queries import *
+from portal.utils.filters import obtener_filtros
+from .models import CustomUser, Section
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 # Create your views here.
@@ -13,9 +15,29 @@ class Homeview(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ventas_seccion'] = dashboard_ventas_seccion()
-        context['ventas_mensuales'] = dashboard_ventas_mensuales()
-        context['lift_confianza'] = dashboard_lift_confianza()
+
+        # ✅ Obtener filtros desde utils/filters.py
+        filtros = obtener_filtros(self.request)
+
+        filtros_aplicar = None if not filtros.get('hay_filtros') else filtros
+
+        # 🔹 Cards principales
+        context['cards'] = get_dashboard_cards()
+        context['top_products'] = get_top_products(filtros)
+        context['clientes_frecuentes'] = get_clientes_frecuentes(filtros)
+        context['ventas_recientes'] = get_ventas_recientes(limit=10)
+
+        # 🔹 Dashboards actualizados
+        context['ventas_categoria'] = dashboard_ventas_categoria(filtros)
+        context['ventas_mensuales'] = dashboard_ventas_mensuales(filtros_aplicar)
+        context['lift_asociacion'] = dashboard_lift_asociacion(filtros)
+        context['confianza_categoria'] = dashboard_confianza_categoria(filtros)
+
+        # 🔹 Para el selector de categoría
+        context['secciones'] = Section.objects.all()
+        context['filtros']= filtros
+        
+
         return context
 
 class CustomLoginView(LoginView):
