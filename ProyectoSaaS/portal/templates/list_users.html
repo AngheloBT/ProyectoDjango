@@ -2,48 +2,55 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center p-4">
-    <div class="card shadow rounded-3 p-4" style="width: 100%;">
-        <div class="row align-content-center">
-            <div class="col text-start">
-                <h1 class="fs-4 m-0">Lista de Usuarios</h1>
-                <h2 class="fs-6 text-secondary fw-normal">{{ users|length }} usuario(s) encontrado(s)</h2>
-            </div>
-            <div class="col text-end">
-                <a href="{% url 'register' %}" class="btn btn-primary">Agregar Usuario</a>
-            </div>
-        </div>
-        {% for user in users %}
-        <div class="card rounded-3 mt-2" style="width: 100%;">
-            <div class="card-body py-2">
-                <div class="d-flex">
-                    <h3 class="fs-4">{{ user.first_name }} {{ user.last_name }}</h3>
-                    {% if user.is_staff or user.is_superuser %}
-                    <div class="mt-1 px-3">
-                        <span class="border border-primary text-primary rounded-4 px-3">Administrador</span>
-                    </div>
-                    {% else %}
-                    <div class="mt-1 px-3">
-                        <span class="border border-primary text-primary rounded-4 px-3">Empleado</span>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="row align-content-center">
-                    <div class="col-4 text-start">
-                        <p>📧 {{ user.username }}</p>
-                        <p>🆔 {{ user.rut }}</p>
-                    </div>
-                    <div class="col-4 text-start">
-                        <p>📞 {{ user.telefono }}</p>
-                        <p>Registro: {{ user.date_joined }} </p>
-                    </div>
-                    <div class="col-4 text-end">
-                        <a href="{% url 'edit_user' user.pk %}" class="btn btn-outline-primary py-1 my-1">✏️ Editar</a>
-                        <a href="{% url 'delete_user' user.pk %}" class="btn btn-outline-danger py-1 my-1">❌ Eliminar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+  <div class="card shadow rounded-3 p-4" style="width: 100%;">
+    <div class="row align-content-center">
+      <div class="col text-start">
+        <h1 class="fs-4 m-0">Lista de Usuarios</h1>
+        <h2 class="fs-6 text-secondary fw-normal">{{ users|length }} usuario(s) encontrado(s)</h2>
+      </div>
+      <div class="col text-end">
+        <a href="{% url 'register' %}" class="btn btn-primary">Agregar Usuario</a>
+      </div>
     </div>
+
+    {% for user in users %}
+    <div class="card rounded-3 mt-2" style="width: 100%;">
+      <div class="card-body py-2">
+        <!-- cambio: se agrega flex-wrap para que no se corte en pantallas pequeñas -->
+        <div class="d-flex flex-wrap align-items-center">
+          <h3 class="fs-4">{{ user.first_name }} {{ user.last_name }}</h3>
+          {% if user.is_staff or user.is_superuser %}
+          <div class="mt-1 px-3">
+            <span class="border border-primary text-primary rounded-4 px-3">Administrador</span>
+          </div>
+          {% else %}
+          <div class="mt-1 px-3">
+            <span class="border border-primary text-primary rounded-4 px-3">Empleado</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="row align-content-center mt-2">
+          <!-- cambio: col-4 -> col-12 col-md-4 para que en móvil se apilen -->
+          <div class="col-12 col-md-4 text-start"> <!-- cambio -->
+            <p>📧 {{ user.username }}</p>
+            <p>🆔 {{ user.rut }}</p>
+          </div>
+
+          <div class="col-12 col-md-4 text-start"> <!-- cambio -->
+            <p>📞 {{ user.telefono }}</p>
+            <p>Registro: {{ user.date_joined }} </p>
+          </div>
+
+          <!-- cambio: text-end -> text-md-end text-start para móvil -->
+          <div class="col-12 col-md-4 text-md-end text-start"> <!-- cambio -->
+            <a href="{% url 'edit_user' user.pk %}" class="btn btn-outline-primary py-1 my-1 btn-sm">✏️ Editar</a> <!-- cambio: btn-sm -->
+            <a href="{% url 'delete_user' user.pk %}" class="btn btn-outline-danger py-1 my-1 btn-sm">❌ Eliminar</a> <!-- cambio: btn-sm -->
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

@@ -110,16 +110,52 @@
   </div>
 
   <!-- 🔹 DASHBOARDS PLOTLY -->
-  <div class="row g-4 mb-4">
-    <div class="col-12 col-lg-6">
-      <div class="card h-100 shadow-sm uniform-card">
-        <div class="card-body">
-          <h6 class="fw-bold mb-2 text-center">Ventas por Categoría</h6>
-            <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
+<div class="row g-4 mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card h-100 shadow-sm uniform-card">
+      <div class="card-body">
+        <h6 class="fw-bold mb-2 text-center">Ventas por Categoría</h6>
+        <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
+
+        <!-- Aquí va el gráfico generado por Plotly -->
+        <div id="grafico-categoria">
           {{ ventas_categoria|safe }}
         </div>
+
+        <!-- SCRIPT para hacer la leyenda responsiva -->
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const grafico = document.querySelector("#grafico-categoria .js-plotly-plot");
+            if (!grafico) return;
+
+            function ajustarLeyenda() {
+              const ancho = window.innerWidth;
+              const update = ancho < 992 ? {
+                'legend.orientation': 'h',
+                'legend.yanchor': 'top',
+                'legend.y': -0.1,
+                'legend.xanchor': 'center',
+                'legend.x': 0.5
+              } : {
+                'legend.orientation': 'v',
+                'legend.yanchor': 'top',
+                'legend.y': 0.99,
+                'legend.xanchor': 'right',
+                'legend.x': 1.15
+              };
+              Plotly.relayout(grafico, update);
+            }
+
+            ajustarLeyenda();
+            window.addEventListener('resize', ajustarLeyenda);
+          });
+        </script>
+
       </div>
     </div>
+  </div>
+</div>
+
 
     <div class="col-12 col-lg-6">
       <div class="card h-100 shadow-sm uniform-card">
