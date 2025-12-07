@@ -5,16 +5,41 @@
 
   <style>
     /* Ajustes locales para uniformidad de cards en esta página */
-    .uniform-card { min-height: 150px; display:flex; flex-direction:column; }
-    .list-item-card { min-height: 84px; }
-    .list-item-card .card-body { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
-    .small-badge {
-      width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center;
-      border-radius:50%; font-weight:600;
+    .uniform-card {
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
     }
+
+    .list-item-card {
+      min-height: 84px;
+    }
+
+    .list-item-card .card-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .small-badge {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 600;
+    }
+
     /* Asegura que listas verticales no rompan el grid */
-    .cards-equal > .col { display:flex; }
-    .cards-equal .card { flex:1; }
+    .cards-equal>.col {
+      display: flex;
+    }
+
+    .cards-equal .card {
+      flex: 1;
+    }
   </style>
 
   <h1 class="text-center mb-4">Dashboard de Ventas</h1>
@@ -27,11 +52,12 @@
         <label class="form-label fw-semibold">Período</label>
         <select name="periodo" class="form-select" id="periodo-select">
           <option value="">Seleccionar</option>
-          <option value="dia" {% if filtros.periodo == 'dia' %}selected{% endif %}>Día</option>
-          <option value="semana" {% if filtros.periodo == 'semana' %}selected{% endif %}>Semana</option>
-          <option value="mes" {% if filtros.periodo == 'mes' %}selected{% endif %}>Mes</option>
-          <option value="anio" {% if filtros.periodo == 'anio' %}selected{% endif %}>Año</option>
-          <option value="personalizado" {% if filtros.periodo == 'personalizado' %}selected{% endif %}>Rango personalizado</option>
+          <option value="dia" {% if filtros.periodo=='dia' %}selected{% endif %}>Día</option>
+          <option value="semana" {% if filtros.periodo=='semana' %}selected{% endif %}>Semana</option>
+          <option value="mes" {% if filtros.periodo=='mes' %}selected{% endif %}>Mes</option>
+          <option value="anio" {% if filtros.periodo=='anio' %}selected{% endif %}>Año</option>
+          <option value="personalizado" {% if filtros.periodo=='personalizado' %}selected{% endif %}>Rango personalizado
+          </option>
         </select>
       </div>
 
@@ -40,9 +66,10 @@
         <select name="categoria" class="form-select">
           <option value="">Todas</option>
           {% for s in secciones %}
-            <option value="{{ s.id_section }}" {% if filtros.categoria == s.id_section|stringformat:"s" %}selected{% endif %}>
-              {{ s.name }}
-            </option>
+          <option value="{{ s.id_section }}" {% if filtros.categoria==s.id_section|stringformat:"s" %}selected{% endif
+            %}>
+            {{ s.name }}
+          </option>
           {% endfor %}
         </select>
       </div>
@@ -59,12 +86,14 @@
 
       <div class="col-6 col-md-2 p-0" id="filtro-mes" style="display:none;">
         <label class="form-label fw-semibold">Mes</label>
-        <input type="month" name="mes_filtro" value="{{ filtros.mes|default:filtros.inicio|date:'Y-m' }}" class="form-control">
+        <input type="month" name="mes_filtro" value="{{ filtros.mes|default:filtros.inicio|date:'Y-m' }}"
+          class="form-control">
       </div>
 
       <div class="col-6 col-md-2 p-0" id="filtro-anio" style="display:none;">
         <label class="form-label fw-semibold">Año</label>
-        <input type="number" name="anio_filtro" value="{{ filtros.anio|default:filtros.inicio.year }}" min="2000" max="2100" class="form-control">
+        <input type="number" name="anio_filtro" value="{{ filtros.anio|default:filtros.inicio.year }}" min="2000"
+          max="2100" class="form-control">
       </div>
 
       <div class="col-6 col-md-2 p-0" id="filtro-personalizado" style="display:none;">
@@ -87,82 +116,79 @@
   <!-- 🔹 CARDS DE MÉTRICAS -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 mb-4 cards-equal">
     {% for card in cards %}
-      <div class="col">
-        <div class="card shadow-sm h-100 p-3 uniform-card">
-          <div class="d-flex justify-content-between align-items-center">
-            <h6 class="fw-bold mb-0">{{ card.titulo }}</h6>
-            <i class="bi {{ card.icono }} fs-4 text-secondary"></i>
-          </div>
-          <h2 class="mt-2 fw-semibold">
-            {% if card.tipo == 'dinero' %}
-              ${{ card.valor|floatformat:0 }}
-            {% else %}
-              {{ card.valor }}
-            {% endif %}
-          </h2>
-          <p class="mb-0 small {% if card.variacion >= 0 %}text-success{% else %}text-danger{% endif %}">
-            {% if card.variacion >= 0 %}▲{% else %}▼{% endif %}
-            {{ card.variacion }}% {{ card.comparacion }}
-          </p>
+    <div class="col">
+      <div class="card shadow-sm h-100 p-3 uniform-card">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0">{{ card.titulo }}</h6>
+          <i class="bi {{ card.icono }} fs-4 text-secondary"></i>
         </div>
+        <h2 class="mt-2 fw-semibold">
+          {% if card.tipo == 'dinero' %}
+          ${{ card.valor|floatformat:0 }}
+          {% else %}
+          {{ card.valor }}
+          {% endif %}
+        </h2>
+        <p class="mb-0 small {% if card.variacion >= 0 %}text-success{% else %}text-danger{% endif %}">
+          {% if card.variacion >= 0 %}▲{% else %}▼{% endif %}
+          {{ card.variacion }}% {{ card.comparacion }}
+        </p>
       </div>
+    </div>
     {% endfor %}
   </div>
 
   <!-- 🔹 DASHBOARDS PLOTLY -->
-<div class="row g-4 mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card h-100 shadow-sm uniform-card">
-      <div class="card-body">
-        <h6 class="fw-bold mb-2 text-center">Ventas por Categoría</h6>
-        <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-lg-6">
+      <div class="card h-100 shadow-sm uniform-card">
+        <div class="card-body">
+          <h6 class="fw-bold mb-2 text-center">Ventas por Categoría</h6>
+          <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
 
-        <!-- Aquí va el gráfico generado por Plotly -->
-        <div id="grafico-categoria">
-          {{ ventas_categoria|safe }}
+          <!-- Aquí va el gráfico generado por Plotly -->
+          <div id="grafico-categoria">
+            {{ ventas_categoria|safe }}
+          </div>
+
+          <!-- SCRIPT para hacer la leyenda responsiva -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const grafico = document.querySelector("#grafico-categoria .js-plotly-plot");
+              if (!grafico) return;
+
+              function ajustarLeyenda() {
+                const ancho = window.innerWidth;
+                const update = ancho < 992 ? {
+                  'legend.orientation': 'h',
+                  'legend.yanchor': 'top',
+                  'legend.y': -0.1,
+                  'legend.xanchor': 'center',
+                  'legend.x': 0.5
+                } : {
+                  'legend.orientation': 'v',
+                  'legend.yanchor': 'top',
+                  'legend.y': 0.99,
+                  'legend.xanchor': 'right',
+                  'legend.x': 1.15
+                };
+                Plotly.relayout(grafico, update);
+              }
+
+              ajustarLeyenda();
+              window.addEventListener('resize', ajustarLeyenda);
+            });
+          </script>
         </div>
-
-        <!-- SCRIPT para hacer la leyenda responsiva -->
-        <script>
-          document.addEventListener("DOMContentLoaded", function() {
-            const grafico = document.querySelector("#grafico-categoria .js-plotly-plot");
-            if (!grafico) return;
-
-            function ajustarLeyenda() {
-              const ancho = window.innerWidth;
-              const update = ancho < 992 ? {
-                'legend.orientation': 'h',
-                'legend.yanchor': 'top',
-                'legend.y': -0.1,
-                'legend.xanchor': 'center',
-                'legend.x': 0.5
-              } : {
-                'legend.orientation': 'v',
-                'legend.yanchor': 'top',
-                'legend.y': 0.99,
-                'legend.xanchor': 'right',
-                'legend.x': 1.15
-              };
-              Plotly.relayout(grafico, update);
-            }
-
-            ajustarLeyenda();
-            window.addEventListener('resize', ajustarLeyenda);
-          });
-        </script>
-
       </div>
     </div>
-  </div>
-</div>
-
 
     <div class="col-12 col-lg-6">
       <div class="card h-100 shadow-sm uniform-card">
         <div class="card-body">
           <h6 class="fw-bold mb-2 text-center">Ventas Mensuales</h6>
           {% if filtros.hay_filtros %}
-            <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
+          <p class="text-muted mb-3 text-center">{{ filtros.subtitle }}</p>
           {% endif %}
           {{ ventas_mensuales|safe }}
         </div>
@@ -173,7 +199,7 @@
       <div class="card h-100 shadow-sm uniform-card">
         <div class="card-body" style="overflow-x:auto;">
           <h6 class="fw-bold mb-2 text-center">Análisis de Lift</h6>
-            <p class="text-muted mb-3">Asociación entre productos comprados juntos - {{ filtros.subtitle }}</p>
+          <p class="text-muted mb-3">Asociación entre productos comprados juntos - {{ filtros.subtitle }}</p>
 
           <div id="lift-container" style="min-width:500px; width:100%;">
             {{ lift_asociacion|safe }}
@@ -186,7 +212,8 @@
       <div class="card h-100 shadow-sm uniform-card">
         <div class="card-body">
           <h6 class="fw-bold mb-2 text-center">Confianza Media por Categoría</h6>
-            <p class="text-muted mb-3">Probabilidad de compra conjunta dentro de cada categoría - {{ filtros.subtitle }}</p>
+          <p class="text-muted mb-3">Probabilidad de compra conjunta dentro de cada categoría - {{ filtros.subtitle }}
+          </p>
           {{ confianza_categoria|safe }}
         </div>
       </div>
@@ -197,7 +224,7 @@
   <div class="card shadow-sm mb-4 px-4 py-3" style="max-width: 1200px; margin: 0 auto;">
     <div class="card-body">
       <h5 class="card-title mb-1">Productos Más Vendidos</h5>
-        <p class="text-muted mb-4">Top 5 - {{ filtros.subtitle }}</p>
+      <p class="text-muted mb-4">Top 5 - {{ filtros.subtitle }}</p>
 
       <div class="d-flex flex-column gap-3">
         {% for p in top_products %}
@@ -205,7 +232,7 @@
           <div class="card-body d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
               <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3"
-                   style="width:40px;height:40px;">
+                style="width:40px;height:40px;">
                 {{ forloop.counter }}
               </div>
               <div>
@@ -262,7 +289,7 @@
   <div class="card shadow-sm mb-4 px-4 py-3" style="max-width: 1200px; margin: 0 auto;">
     <div class="card-body">
       <h5 class="card-title mb-1">Clientes Frecuentes</h5>
-        <p class="text-muted mb-3">Clientes con mayor número de órdenes registradas - {{ filtros.subtitle }}</p>
+      <p class="text-muted mb-3">Clientes con mayor número de órdenes registradas - {{ filtros.subtitle }}</p>
 
       <div class="d-flex flex-column gap-3">
         {% for c in clientes_frecuentes %}
@@ -270,7 +297,7 @@
           <div class="card-body d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
               <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-3"
-                   style="width:40px;height:40px;">
+                style="width:40px;height:40px;">
                 {{ forloop.counter }}
               </div>
               <div>
@@ -297,33 +324,33 @@
 
 <!-- 🔹 Script para mostrar filtros dinámicos -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const selectPeriodo = document.getElementById('periodo-select');
 
     const filtros = {
-        'dia': document.getElementById('filtro-dia'),
-        'semana': document.getElementById('filtro-semana'),
-        'mes': document.getElementById('filtro-mes'),
-        'anio': document.getElementById('filtro-anio'),
-        'personalizado': [
-            document.getElementById('filtro-personalizado'),
-            document.getElementById('filtro-personalizado-hasta')
-        ]
+      'dia': document.getElementById('filtro-dia'),
+      'semana': document.getElementById('filtro-semana'),
+      'mes': document.getElementById('filtro-mes'),
+      'anio': document.getElementById('filtro-anio'),
+      'personalizado': [
+        document.getElementById('filtro-personalizado'),
+        document.getElementById('filtro-personalizado-hasta')
+      ]
     };
 
     function actualizarFiltros() {
-        Object.keys(filtros).forEach(key => {
-            if(Array.isArray(filtros[key])){
-                filtros[key].forEach(el => el.style.display = (selectPeriodo.value === key) ? 'block' : 'none');
-            } else {
-                filtros[key].style.display = (selectPeriodo.value === key) ? 'block' : 'none';
-            }
-        });
+      Object.keys(filtros).forEach(key => {
+        if (Array.isArray(filtros[key])) {
+          filtros[key].forEach(el => el.style.display = (selectPeriodo.value === key) ? 'block' : 'none');
+        } else {
+          filtros[key].style.display = (selectPeriodo.value === key) ? 'block' : 'none';
+        }
+      });
     }
 
     selectPeriodo.addEventListener('change', actualizarFiltros);
     actualizarFiltros(); // Inicializa al cargar la página
-});
+  });
 </script>
 
 {% endblock %}
