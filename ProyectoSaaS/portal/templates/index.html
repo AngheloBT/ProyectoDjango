@@ -79,8 +79,8 @@
 
     <!-- Botones: siempre ocupan 2 columnas en md+ -->
     <div class="col-12 col-md-2 text-end d-flex flex-column justify-content-end">
-      <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Filtrar</button>
-      <a href="{% url 'app' %}" class="btn btn-outline-secondary w-100 mt-2">Limpiar</a>
+      <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel me-2"></i> Filtrar</button>
+      <a href="{% url 'app' %}" class="btn btn-outline-secondary w-100 mt-2"><i class="bi bi-x-circle me-2"></i>Limpiar</a>
     </div>
   </form>
 
@@ -91,7 +91,7 @@
         <div class="card shadow-sm h-100 p-3 uniform-card">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="fw-bold mb-0">{{ card.titulo }}</h6>
-            <i class="bi {{ card.icono }} fs-4 text-secondary"></i>
+            <i class="bi {{ card.icono }} fs-4 text-primary"></i>
           </div>
           <h2 class="mt-2 fw-semibold">
             {% if card.tipo == 'dinero' %}
