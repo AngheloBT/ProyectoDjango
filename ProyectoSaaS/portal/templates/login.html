@@ -1,22 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="flex-grow justify-content-center pt-4">
-    <h1 class="text-center text-primary fs-2 fw-semibold">Minimarket Don Pepito</h1>
-    <p class="text-center fs-5 text-secondary fw-normal">Ingresa tus credenciales para ingresar</p>
+
+<!-- LOGO + TÍTULO SUPERIOR -->
+<div class="flex-grow justify-content-center pt-3 text-center">
+    <h1 class="text-primary fs-2 fw-semibold">Minimarket Don Pepito</h1>
+    <p class="fs-5 text-secondary fw-normal">Ingresa tus credenciales para ingresar</p>
 </div>
-<div class="container d-flex justify-content-center pt-4">
-    <div class="card shadow rounded-4" style="width: 500px">
+
+<!-- TARJETA DE LOGIN -->
+<div class="container d-flex justify-content-center pt-3">
+    <div class="card shadow rounded-4" style="width: 450px">
+
+        <!-- LOGO dentro de la card -->
+        <div class="text-center pt-3 pb-1">
+            <img src="{% static 'img/logo.png' %}"
+                 alt="Logo"
+                 class="img-fluid"
+                 style="max-width: 240px;">
+        </div>
+
         <div class="card-body">
-            <form method="POST" class="p-4" autocomplete="off">
+
+            <form method="POST" class="p-3" autocomplete="off">
+
                 <h2 class="text-start fs-4 fw-semibold">Iniciar Sesión</h2>
-                <h3 class="text-start fs-6 pb-3 text-secondary fw-normal">Accede a tu panel de control</h3>
+                <h3 class="text-start fs-6 pb-3 text-secondary fw-normal">
+                    Accede a tu panel de control
+                </h3>
 
                 {% csrf_token %}
 
                 {% for field in form %}
                 <div class="mb-3">
-                    <label class='form-label fw-semibold'>{{ field.label_tag }}</label>
+                    <label class="form-label fw-semibold">{{ field.label_tag }}</label>
                     {{ field }}
                 </div>
                 {% endfor %}
@@ -28,11 +46,17 @@
                 {% endif %}
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Iniciar Sesión</button>
+
                 <div class="text-center mt-3">
-                    <a href="{% url 'pass_recovery' %}" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                    <a href="{% url 'pass_recovery' %}" class="text-decoration-none">
+                        ¿Olvidaste tu contraseña?
+                    </a>
                 </div>
+
             </form>
+
         </div>
     </div>
 </div>
+
 {% endblock %}

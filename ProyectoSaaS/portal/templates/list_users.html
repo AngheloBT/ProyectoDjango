@@ -9,14 +9,15 @@
         <h2 class="fs-6 text-secondary fw-normal">{{ users|length }} usuario(s) encontrado(s)</h2>
       </div>
       <div class="col text-end">
-        <a href="{% url 'register' %}" class="btn btn-primary">Agregar Usuario</a>
+        <a href="{% url 'register' %}" class="btn btn-primary">
+          <i class="bi bi-person-plus me-1"></i> Agregar Usuario
+        </a>
       </div>
     </div>
 
     {% for user in users %}
     <div class="card rounded-3 mt-2" style="width: 100%;">
       <div class="card-body py-2">
-        <!-- cambio: se agrega flex-wrap para que no se corte en pantallas pequeñas -->
         <div class="d-flex flex-wrap align-items-center">
           <h3 class="fs-4">{{ user.first_name }} {{ user.last_name }}</h3>
           {% if user.is_staff or user.is_superuser %}
@@ -31,21 +32,23 @@
         </div>
 
         <div class="row align-content-center mt-2">
-          <!-- cambio: col-4 -> col-12 col-md-4 para que en móvil se apilen -->
-          <div class="col-12 col-md-4 text-start"> <!-- cambio -->
-            <p>📧 {{ user.username }}</p>
-            <p>🆔 {{ user.rut }}</p>
+          <div class="col-12 col-md-4 text-start">
+            <p><i class="bi bi-envelope text-primary me-2"></i>{{ user.username }}</p>
+            <p><i class="bi bi-person-vcard text-primary me-2"></i>{{ user.rut }}</p>
           </div>
 
-          <div class="col-12 col-md-4 text-start"> <!-- cambio -->
-            <p>📞 {{ user.telefono }}</p>
-            <p>Registro: {{ user.date_joined }} </p>
+          <div class="col-12 col-md-4 text-start">
+            <p><i class="bi bi-telephone text-primary me-2"></i>{{ user.telefono }}</p>
+            <p><i class="bi bi-calendar text-primary me-2"></i>Registro: {{ user.date_joined }}</p>
           </div>
 
-          <!-- cambio: text-end -> text-md-end text-start para móvil -->
-          <div class="col-12 col-md-4 text-md-end text-start"> <!-- cambio -->
-            <a href="{% url 'edit_user' user.pk %}" class="btn btn-outline-primary py-1 my-1 btn-sm">✏️ Editar</a> <!-- cambio: btn-sm -->
-            <a href="{% url 'delete_user' user.pk %}" class="btn btn-outline-danger py-1 my-1 btn-sm">❌ Eliminar</a> <!-- cambio: btn-sm -->
+          <div class="col-12 col-md-4 text-md-end text-start">
+            <a href="{% url 'edit_user' user.pk %}" class="btn btn-outline-primary py-1 my-1 btn-sm">
+              <i class="bi bi-pencil me-1"></i> Editar
+            </a>
+            <a href="{% url 'delete_user' user.pk %}" class="btn btn-outline-danger py-1 my-1 btn-sm">
+              <i class="bi bi-trash me-1"></i> Eliminar
+            </a>
           </div>
         </div>
       </div>
