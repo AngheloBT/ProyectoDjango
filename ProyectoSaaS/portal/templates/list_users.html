@@ -1,49 +1,75 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container d-flex justify-content-center p-4">
-    <div class="card shadow rounded-3 p-4" style="width: 100%;">
-        <div class="row align-content-center">
-            <div class="col text-start">
-                <h1 class="fs-4 m-0">Lista de Usuarios</h1>
-                <h2 class="fs-6 text-secondary fw-normal">{{ users|length }} usuario(s) encontrado(s)</h2>
+<div class="container py-4">
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+
+        <!-- ENCABEZADO -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h1 class="fs-4 fw-bold mb-1">Lista de Usuarios</h1>
+                <p class="text-secondary m-0">{{ users|length }} usuario(s) encontrado(s)</p>
             </div>
-            <div class="col text-end">
-                <a href="{% url 'register' %}" class="btn btn-primary">Agregar Usuario</a>
-            </div>
+
+            <a href="{% url 'register' %}" class="btn btn-primary rounded-3">
+                <i class="bi bi-person-plus me-1"></i> Agregar Usuario
+            </a>
         </div>
+
+        <!-- LISTA DE USUARIOS -->
         {% for user in users %}
-        <div class="card rounded-3 mt-2" style="width: 100%;">
-            <div class="card-body py-2">
-                <div class="d-flex">
-                    <h3 class="fs-4">{{ user.first_name }} {{ user.last_name }}</h3>
+        <div class="card border-0 shadow-sm rounded-4 mb-3">
+            <div class="card-body">
+
+                <!-- NOMBRE + ROL -->
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h3 class="fs-5 fw-bold m-0">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h3>
+
                     {% if user.is_staff or user.is_superuser %}
-                    <div class="mt-1 px-3">
-                        <span class="border border-primary text-primary rounded-4 px-3">Administrador</span>
-                    </div>
+                    <span class="badge text-bg-primary px-3 py-2 rounded-pill">Administrador</span>
                     {% else %}
-                    <div class="mt-1 px-3">
-                        <span class="border border-primary text-primary rounded-4 px-3">Empleado</span>
-                    </div>
+                    <span class="badge text-bg-secondary px-3 py-2 rounded-pill">Empleado</span>
                     {% endif %}
                 </div>
-                <div class="row align-content-center">
-                    <div class="col-4 text-start">
-                        <p>📧 {{ user.username }}</p>
-                        <p>🆔 {{ user.rut }}</p>
+
+                <!-- INFORMACIÓN -->
+                <div class="row">
+
+                    <div class="col-12 col-md-4">
+                        <p class="m-0"><i class="bi bi-envelope text-primary"></i> {{ user.username }}</p>
+                        <p class="m-0"><i class="bi bi-person-badge text-primary"></i> {{ user.rut }}</p>
                     </div>
-                    <div class="col-4 text-start">
-                        <p>📞 {{ user.telefono }}</p>
-                        <p>Registro: {{ user.date_joined }} </p>
+
+                    <div class="col-12 col-md-4 mt-2 mt-md-0">
+                        <p class="m-0"><i class="bi bi-telephone text-primary"></i> {{ user.telefono }}</p>
+                        <p class="m-0"><i class="bi bi-clock text-primary"></i> Registro: {{ user.date_joined }}</p>
                     </div>
-                    <div class="col-4 text-end">
-                        <a href="{% url 'edit_user' user.pk %}" class="btn btn-outline-primary py-1 my-1">✏️ Editar</a>
-                        <a href="{% url 'delete_user' user.pk %}" class="btn btn-outline-danger py-1 my-1">❌ Eliminar</a>
+
+                    <!-- BOTONES -->
+                    <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
+
+                        <a href="{% url 'edit_user' user.pk %}" 
+                           class="btn btn-outline-primary btn-sm me-2 px-3 rounded-3">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </a>
+
+                        <a href="{% url 'delete_user' user.pk %}" 
+                           class="btn btn-outline-danger btn-sm px-3 rounded-3">
+                            <i class="bi bi-trash me-1"></i> Eliminar
+                        </a>
+
                     </div>
                 </div>
+
             </div>
         </div>
         {% endfor %}
+
     </div>
 </div>
 {% endblock %}
