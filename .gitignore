@@ -4,3 +4,5 @@ __pycache__/
 *.log
 .env
 *.db
+db.sqlite3
+*.sqlite3
